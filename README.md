@@ -1,36 +1,43 @@
 # Rust 图像相似度检测工具
 
-借助 **Claude Code**，在零 Rust 基础下，**24 小时内**完成的跨领域原型项目。
-
+> 零 Rust 基础，借助 **Claude Code** 在 **1 小时 2 分钟**内完成的跨领域原型。
+>
 > 🎯 证明"借 AI Agent 进入陌生技术领域快速产出"的能力。
+> 面向 [DeepSeek Agent Harness](https://github.com/deepseek-ai) 实习投递。
 
 ## 功能
 
-给定一个图片文件夹，自动检测其中相似的图片对：
+- 支持 **三种感知哈希算法**：ahash（均值）、dhash（梯度）、phash（DCT 频域）
+- 可自定义相似度阈值（`--threshold`）
+- 三算法对比模式（`--algo all`），一张表看清差异
+- 抗缩放、旋转、轻微压缩
 
-- 使用**感知哈希（phash）**算法，基于频域 DCT 变换
-- 抗缩放、旋转、轻微压缩——比简单像素哈希可靠得多
-- 输出所有相似图片对及汉明距离
-
-## 运行
+## 快速开始
 
 ```bash
+# 单算法模式（默认 phash）
 cargo run -- test_images/
+
+# 指定算法
+cargo run -- test_images/ --algo ahash
+
+# 三算法对比
+cargo run -- test_images/ --algo all
+
+# 自定义阈值（默认 15）
+cargo run -- test_images/ --threshold 10
 ```
 
-输出示例：
+## 三算法对比结论
 
-```
-找到 5 张图片
+| 场景 | ahash (Mean) | dhash (Gradient) | phash (DCT+Mean) |
+|------|-------------|------------------|-------------------|
+| 完全相同 | 0 ✅ | 0 ✅ | 0 ✅ |
+| 旋转变换 | 0 ✅ | 0 ✅ | 0 ✅ |
+| 缩放变换 | 0 ✅ | 1 🟡 | 0 ✅ |
+| 无关图片 | 排除 ✅ | 排除 ✅ | 排除 ✅ |
 
-[哈希] test_images\a.jpg → 4c0e8e0607272f09
-[哈希] test_images\a_copy.jpg → 4c0e8e0607272f09
-[哈希] test_images\a_small.jpg → 4c4e8e0607272f09
-
---- 相似结果 ---
-相似: a.jpg  <->  a_copy.jpg  (距离: 0)
-相似: a.jpg  <->  a_small.jpg  (距离: 1)
-```
+> phash 缩放鲁棒性最优。三算法协同覆盖更多场景。
 
 ## 技术栈
 
@@ -38,16 +45,16 @@ cargo run -- test_images/
 |----|------|
 | 语言 | Rust（项目开始时零基础） |
 | 图像解码 | `image` 0.23 |
-| 感知哈希 | `img_hash` 3.x (phash / DCT-based) |
+| 感知哈希 | `img_hash` 3.x |
 | 开发驱动 | Claude Code 全程辅助 |
 
-## 为什么做这个
+## 项目叙事
 
-面向 DeepSeek Agent Harness 团队的实习投递。Harness 团队的要求是：
+- 不会 Rust → 不提前学语法 → Claude Code 驱动 → 1h2min 跑通完整原型
+- 遇到 3 个编译卡点（依赖版本冲突、trait 不匹配、UTF-8 截断），均在数分钟内定位解决
+- 最终产出一个可运行、有对比实验、有过程日志的工具
 
-> "会不会 Rust 不重要，能不能借 AI 一天内用 Rust 跑通原型才重要。"
-
-这个项目就是这句话的兑现。
+详见 [PROGRESS.md](./PROGRESS.md)
 
 ## License
 

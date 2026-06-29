@@ -3,7 +3,6 @@
 > 零 Rust 基础，借助 **Claude Code** 在 **1 小时 2 分钟**内完成的跨领域原型。
 >
 > 🎯 证明"借 AI Agent 进入陌生技术领域快速产出"的能力。
-> 面向 [DeepSeek Agent Harness](https://github.com/deepseek-ai) 实习投递。
 
 ## 功能
 
@@ -50,7 +49,7 @@ cargo run -- test_images/ --threshold 10
 
 ## 项目叙事
 
-- 不会 Rust → 不提前学语法 → Claude Code 驱动 → 1h2min 跑通完整原型
+- 不会 Rust → 无需会语法 → Claude Code 驱动 → 1h2min 跑通完整原型
 - 遇到 3 个编译卡点（依赖版本冲突、trait 不匹配、UTF-8 截断），均在数分钟内定位解决
 - 最终产出一个可运行、有对比实验、有过程日志的工具
 

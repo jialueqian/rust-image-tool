@@ -11,6 +11,16 @@
 - 三算法对比模式（`--algo all`），一张表看清差异
 - 抗缩放、旋转、轻微压缩
 
+## 安装
+
+```bash
+git clone https://github.com/jialueqian/rust-image-tool.git
+cd rust-image-tool
+cargo build
+```
+
+需 Rust 工具链（推荐 `rustup`）。依赖 `image` 0.23 + `img_hash` 3.x 已锁版本（升级会类型冲突，见 [CLAUDE.md](./CLAUDE.md) 依赖约定）。
+
 ## 快速开始
 
 ```bash
@@ -46,6 +56,17 @@ cargo run -- test_images/ --threshold 10
 | 图像解码 | `image` 0.23 |
 | 感知哈希 | `img_hash` 3.x |
 | 开发驱动 | Claude Code 全程辅助 |
+
+## 项目结构
+
+```
+rust-image-tool/
+├── src/main.rs        # CLI 入口 + 三算法调度
+├── test_images/       # 测试图（含旋转/缩放/无关对照）
+├── PROGRESS.md        # 1h2min 开发过程日志
+├── CLAUDE.md          # 项目约定
+└── Cargo.toml
+```
 
 ## 项目叙事
 
